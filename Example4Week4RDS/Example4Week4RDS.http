@@ -1,0 +1,6 @@
+@Example4Week4RDS_HostAddress = http://localhost:5195
+
+GET {{Example4Week4RDS_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
