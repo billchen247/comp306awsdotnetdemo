@@ -10,5 +10,6 @@ namespace Example5WeekWeb.Data
         }
 
         public DbSet<Student> Students { get; set; }
+        public DbSet<Example5WeekWeb.Models.TodoItem> Todos { get; set; }
     }
 }

@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Example5WeekWeb</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- CDN fallback so the site has Bootstrap styling even if local lib files are missing -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Example5WeekWeb.styles.css" asp-append-version="true" />
 </head>
@@ -28,6 +30,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Students/Index">Students</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Todo" asp-action="Index">Todos</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -46,6 +51,11 @@
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <!-- jQuery CDN fallback -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- CDN fallbacks for validation in case local files are not present -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 

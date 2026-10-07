@@ -13,6 +13,8 @@ namespace Example5WeekWeb
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+            // Add classic MVC controllers with views for Todo demo
+            builder.Services.AddControllersWithViews();
             // Register In-Memory database for student study purposes
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseInMemoryDatabase("StudentsDb"));
@@ -29,6 +31,15 @@ namespace Example5WeekWeb
                     db.Students.AddRange(
                         new Models.Student { Name = "Alice", EnrollmentDate = DateTime.UtcNow.AddMonths(-3) },
                         new Models.Student { Name = "Bob", EnrollmentDate = DateTime.UtcNow.AddMonths(-1) }
+                    );
+                    db.SaveChanges();
+                }
+                // Seed some todos
+                if (!db.Todos.Any())
+                {
+                    db.Todos.AddRange(
+                        new Models.TodoItem { Title = "Learn Razor Pages", IsDone = false, DueDate = DateTime.UtcNow.AddDays(7) },
+                        new Models.TodoItem { Title = "Build MVC demo", IsDone = false, DueDate = DateTime.UtcNow.AddDays(3) }
                     );
                     db.SaveChanges();
                 }
@@ -50,6 +61,15 @@ namespace Example5WeekWeb
             app.UseAuthorization();
 
             app.MapRazorPages();
+            // Support both /Todo and /Todos URL segments for convenience
+            app.MapControllerRoute(
+                name: "todos_plural",
+                pattern: "Todos/{action=Index}/{id?}",
+                defaults: new { controller = "Todo", action = "Index" });
+
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Todo}/{action=Index}/{id?}");
 
             app.Run();
         }

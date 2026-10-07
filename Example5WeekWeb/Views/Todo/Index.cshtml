@@ -1,0 +1,33 @@
+@model IEnumerable<Example5WeekWeb.Models.TodoItem>
+
+@{
+    ViewData["Title"] = "Todos";
+}
+
+<h1>Todos</h1>
+<p>
+    <a class="btn btn-primary" href="@Url.Action("Create", "Todo")">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Due</th>
+            <th>Done</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach(var item in Model) {
+        <tr>
+            <td>@item.Title</td>
+            <td>@(item.DueDate?.ToString("yyyy-MM-dd") ?? "")</td>
+            <td>@(item.IsDone ? "Yes" : "No")</td>
+            <td>
+                <a class="btn btn-sm btn-secondary" href="@Url.Action("Edit", "Todo", new { id = item.Id })">Edit</a>
+                <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", "Todo", new { id = item.Id })">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
