@@ -1,0 +1,72 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+/* Classic styling additions for study page */
+header {
+  background: #f8f9fa;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+table thead th {
+  background: #e9ecef;
+  border: 1px solid #dee2e6;
+  padding: 8px;
+  text-align: left;
+}
+
+table tbody td {
+  border: 1px solid #dee2e6;
+  padding: 8px;
+}
+
+form div {
+  margin-bottom: 0.5rem;
+}
+
+input[type="text"], input[type="date"], input[type="email"], textarea {
+  border: 1px solid #ced4da;
+  padding: 6px 8px;
+  border-radius: 2px;
+}
+
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 3px;
+}
+
+button:hover {
+  background: #0069d9;
+}

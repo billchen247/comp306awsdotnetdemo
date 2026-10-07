@@ -1,0 +1,27 @@
+@page "{id:int}"
+@model Example5WeekWeb.Pages.Students.EditModel
+@{
+    ViewData["Title"] = "Edit Student";
+}
+
+<h1>Edit Student</h1>
+
+<form method="post">
+    <input type="hidden" asp-for="Student.Id" />
+    <div>
+        <label asp-for="Student.Name"></label>
+        <input asp-for="Student.Name" />
+        <span asp-validation-for="Student.Name"></span>
+    </div>
+    <div>
+        <label asp-for="Student.EnrollmentDate"></label>
+        <input asp-for="Student.EnrollmentDate" type="date" />
+        <span asp-validation-for="Student.EnrollmentDate"></span>
+    </div>
+    <button type="submit">Save</button>
+    <a asp-page="/Students/Index">Back</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,41 @@
+@page
+@model Example5WeekWeb.Pages.Students.IndexModel
+@{
+    ViewData["Title"] = "Students";
+}
+
+<h1>Students</h1>
+
+<p>
+    <a class="btn btn-primary" asp-page="./Create">Create New Student</a>
+</p>
+
+<hr />
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Enrollment Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var student in Model.Students)
+    {
+        <tr>
+            <td>@student.Name</td>
+            <td>@student.EnrollmentDate.ToString("yyyy-MM-dd")</td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@student.Id">Edit</a>
+                |
+                <a asp-page="./Delete" asp-route-id="@student.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

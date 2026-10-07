@@ -1,0 +1,26 @@
+@page
+@model Example5WeekWeb.Pages.Students.CreateModel
+@{
+    ViewData["Title"] = "Create Student";
+}
+
+<h1>Create Student</h1>
+
+<form method="post">
+    <div>
+        <label asp-for="Student.Name"></label>
+        <input asp-for="Student.Name" />
+        <span asp-validation-for="Student.Name"></span>
+    </div>
+    <div>
+        <label asp-for="Student.EnrollmentDate"></label>
+        <input asp-for="Student.EnrollmentDate" type="date" />
+        <span asp-validation-for="Student.EnrollmentDate"></span>
+    </div>
+    <button type="submit">Create</button>
+    <a asp-page="/Students/Index">Back</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
