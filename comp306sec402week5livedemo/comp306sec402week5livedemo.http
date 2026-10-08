@@ -1,0 +1,6 @@
+@comp306sec402week5livedemo_HostAddress = http://localhost:5277
+
+GET {{comp306sec402week5livedemo_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
