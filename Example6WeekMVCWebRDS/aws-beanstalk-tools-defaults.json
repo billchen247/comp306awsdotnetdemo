@@ -9,7 +9,7 @@
   "iis-website": "Default Web Site",
   "enable-xray": false,
   "enhanced-health-type": "basic",
-  "additional-options": "\u0022aws:autoscaling:launchconfiguration,SecurityGroups\u0022=\u0022sg-099ec2837230f6d48\u0022;\u0022aws:ec2:vpc,Subnets\u0022=\u0022subnet-0c5ea2f878657ddbf\u0022",
+  "additional-options": "\u0022aws:autoscaling:launchconfiguration,SecurityGroups\u0022=\u0022sg-041f5b2534d393fd1\u0022;\u0022aws:ec2:vpc,Subnets\u0022=\u0022subnet-0c5ea2f878657ddbf\u0022",
   "solution-stack": "64bit Windows Server 2019 v2.23.6 running IIS 10.0",
   "environment-type": "SingleInstance",
   "cname": "example6weekmvcwebrds-test",

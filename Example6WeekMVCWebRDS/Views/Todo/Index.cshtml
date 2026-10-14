@@ -12,6 +12,18 @@
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
+<form method="get" asp-action="Index" class="form-inline mb-3">
+    <div class="input-group">
+        <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="Search by title..." />
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-outline-secondary">Search</button>
+        </div>
+    </div>
+    @if (!string.IsNullOrEmpty((string?)ViewData["CurrentFilter"]))
+    {
+        <a asp-action="Index" class="btn btn-link">Clear</a>
+    }
+</form>
 <table class="table">
     <thead>
         <tr>

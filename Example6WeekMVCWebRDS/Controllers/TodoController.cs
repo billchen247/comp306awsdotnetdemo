@@ -14,9 +14,18 @@ namespace Example6WeekMVCWebRDS.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchString)
         {
-            var todos = await _context.TodoItems.ToListAsync();
+            ViewData["CurrentFilter"] = searchString;
+
+            var query = _context.TodoItems.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                var lowered = searchString.ToLower();
+                query = query.Where(t => t.Title != null && EF.Functions.Like(t.Title.ToLower(), "%" + lowered + "%"));
+            }
+
+            var todos = await query.ToListAsync();
             return View(todos);
         }
 
