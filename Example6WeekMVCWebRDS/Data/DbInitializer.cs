@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using Example6WeekMVCWebRDS.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,11 +9,21 @@ namespace Example6WeekMVCWebRDS.Data
     {
         public static void Initialize(TodoContext context)
         {
-            // Use EF Core migrations at runtime to ensure schema is up-to-date.
-            // This applies any pending migrations. For development/demo purposes
-            // this is convenient; for production consider running migrations from
-            // deployment pipelines instead.
-            context.Database.Migrate();
+            // Use EF Core migrations at runtime to ensure schema is up-to-date when
+            // migrations are present. If there are no migrations in the project
+            // (e.g. running against a fresh DB without any migration files),
+            // fall back to EnsureCreated() so the schema is created from the model.
+            // Note: EnsureCreated() is not compatible with Migrations and is
+            // intended only for simple development/demo scenarios.
+            var hasMigrations = context.Database.GetMigrations().Any();
+            if (hasMigrations)
+            {
+                context.Database.Migrate();
+            }
+            else
+            {
+                context.Database.EnsureCreated();
+            }
 
             if (context.TodoItems.Any())
             {
