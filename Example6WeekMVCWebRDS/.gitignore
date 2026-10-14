@@ -1,0 +1,74 @@
+# Build artifacts
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+*.sln.iml
+
+# Dotnet publish
+publish/
+
+# NuGet
+*.nupkg
+packages/
+.nuget/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# IIS Express
+/.vs/**/applicationhost.config
+
+# Local DB files
+*.mdf
+*.ldf
+
+# Entity Framework
+Migrations/**/Snapshot.cs
+
+# User secrets (stored in profile, but ignore any accidental file)
+secrets.json
+
+# Logs
+logs/
+*.log
+
+# Visual Studio Code
+.vscode/
+
+# node/npm
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Mac OS
+.DS_Store
+
+# Test results
+TestResults/
+
+# Rider caches
+.idea/
+*.sln.DotSettings.user
+
+# Coverage
+coverage/
+*.coverage
+*.coveragexml
+
+# Others
+*.db
+*.sqlite
+.env
+
+# Ignore publish output from dotnet
+**/publish/

@@ -1,0 +1,32 @@
+@model IEnumerable<Example6WeekMVCWebRDS.Models.TodoItem>
+
+@{
+    ViewData["Title"] = "Todos";
+}
+
+<h1>Todos</h1>
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Is Done</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+{
+        <tr>
+            <td>@item.Title</td>
+            <td>@item.IsDone</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

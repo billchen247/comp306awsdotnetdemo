@@ -1,0 +1,20 @@
+@model Example6WeekMVCWebRDS.Models.TodoItem
+
+@{
+    ViewData["Title"] = "Create Todo";
+}
+
+<h1>Create</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group form-check">
+        <input asp-for="IsDone" class="form-check-input" />
+        <label asp-for="IsDone" class="form-check-label"></label>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
