@@ -13,6 +13,8 @@ namespace Example6WeekMVCWebRDS
             builder.Services.AddControllersWithViews();
 
             // Add DbContext
+            // db connection string is loading appsettings.json, but you can override it with an environment variable
+            // default environment variable name is "ConnectionStrings__DefaultConnection" (double underscore)
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<Example6WeekMVCWebRDS.Data.TodoContext>(options =>
                 options.UseSqlServer(connectionString));
