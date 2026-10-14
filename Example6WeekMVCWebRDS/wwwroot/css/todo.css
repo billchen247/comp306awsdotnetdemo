@@ -1,0 +1,31 @@
+/* Classic-style CSS for Todo pages */
+body {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  background: #f6f6f6;
+  color: #222;
+}
+.container {
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  margin-top: 20px;
+}
+h1 {
+  font-size: 2em;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+.table {
+  background: #fff;
+}
+.btn-primary {
+  background-color: #2a5d9f;
+  border-color: #234f85;
+}
+.btn-primary:hover { background-color: #234f85; }
+.btn-danger { background-color: #a94442; border-color: #843534; }
+.btn-secondary { background-color: #6c757d; border-color: #6c757d; }
+.form-control { border-radius: 0; }
+.form-check-input { margin-top: 0.3rem; }
