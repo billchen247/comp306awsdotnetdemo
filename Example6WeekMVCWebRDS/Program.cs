@@ -34,7 +34,11 @@ namespace Example6WeekMVCWebRDS
 
             app.UseAuthorization();
 
-            app.MapControllers();
+            // Map conventional controller routes so controllers like TodoController
+            // (which do not use attribute routing) are reachable at /{controller}/{action}/{id?}
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapRazorPages();
 
             // Seed database
