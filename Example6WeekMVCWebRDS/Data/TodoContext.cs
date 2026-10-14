@@ -9,6 +9,7 @@ namespace Example6WeekMVCWebRDS.Data
         {
         }
 
-        public DbSet<TodoItem> Todos { get; set; } = null!;
+        // Match the existing database table name `TodoItems`.
+        public DbSet<TodoItem> TodoItems { get; set; } = null!;
     }
 }

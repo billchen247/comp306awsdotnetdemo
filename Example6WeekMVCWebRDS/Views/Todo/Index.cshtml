@@ -16,7 +16,8 @@
     <thead>
         <tr>
             <th>Title</th>
-            <th>Is Done</th>
+            <th>Due</th>
+            <th>Completed</th>
             <th></th>
         </tr>
     </thead>
@@ -25,7 +26,8 @@
 {
         <tr>
             <td>@item.Title</td>
-            <td>@item.IsDone</td>
+            <td>@(item.DueAt?.ToString("yyyy-MM-dd") ?? "")</td>
+            <td>@(item.IsCompleted ? "Yes" : "No")</td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
