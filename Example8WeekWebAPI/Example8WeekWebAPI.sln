@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36705.20 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example8WeekWebAPI", "Example8WeekWebAPI.csproj", "{131C2429-0D9B-45A2-966C-96A2A6DD2141}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{131C2429-0D9B-45A2-966C-96A2A6DD2141}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{131C2429-0D9B-45A2-966C-96A2A6DD2141}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{131C2429-0D9B-45A2-966C-96A2A6DD2141}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{131C2429-0D9B-45A2-966C-96A2A6DD2141}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9E5A2F2B-B547-4221-8F04-0DF2BF7C9572}
+	EndGlobalSection
+EndGlobal
