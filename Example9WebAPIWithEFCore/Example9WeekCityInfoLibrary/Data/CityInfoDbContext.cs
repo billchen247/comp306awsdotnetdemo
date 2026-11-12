@@ -20,6 +20,8 @@ namespace Example9WeekCityInfoLibrary.Data
             // Configure CityInfo entity
             modelBuilder.Entity<CityInfo>(entity =>
             {
+                entity.ToTable("CityInfo");  // ADD THIS LINE
+
                 entity.HasKey(e => e.CityId);
 
                 entity.Property(e => e.CityName)
@@ -38,6 +40,8 @@ namespace Example9WeekCityInfoLibrary.Data
             // Configure PointsOfInterest entity
             modelBuilder.Entity<PointsOfInterest>(entity =>
             {
+                entity.ToTable("PointsOfInterest");
+
                 entity.HasKey(e => e.PointsOfInterestId);
 
                 entity.Property(e => e.NameofPOI)
