@@ -87,7 +87,8 @@ namespace Example9WeekCityInfoAPI
             }
 
             // Configure the HTTP request pipeline
-            if (app.Environment.IsDevelopment())
+            // the path to access the swagger UI is /swagger/index.html
+            if (app.Environment.IsDevelopment() || true)
             {
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
