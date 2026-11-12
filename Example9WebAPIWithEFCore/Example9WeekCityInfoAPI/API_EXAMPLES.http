@@ -1,0 +1,541 @@
+/**
+ * CityInfo API - Complete Usage Examples
+ * 
+ * This file demonstrates all API endpoints with curl commands and expected responses
+ */
+
+// ============================================================================
+// CITIES ENDPOINTS
+// ============================================================================
+
+/**
+ * GET /api/cities
+ * Description: Get all cities
+ * Authentication: Not required (in basic implementation)
+ * Response: 200 OK with array of cities
+ */
+GET /api/cities HTTP/1.1
+Host: localhost:7000
+Accept: application/json
+
+// Response Example:
+// HTTP/1.1 200 OK
+// Content-Type: application/json
+// [
+//   {
+//     "cityId": 1,
+//     "cityName": "New York",
+//     "description": "The Big Apple",
+//     "pointsOfInterestCount": 3,
+//     "pointsOfInterest": [...]
+//   },
+//   {
+//     "cityId": 2,
+//     "cityName": "Los Angeles",
+//     "description": "The City of Angels",
+//     "pointsOfInterestCount": 2,
+//     "pointsOfInterest": [...]
+//   }
+// ]
+
+---
+
+/**
+ * GET /api/cities/{cityId}
+ * Description: Get a specific city with all its points of interest
+ * Parameters:
+ *   - cityId (int, path): The ID of the city to retrieve
+ * Response: 200 OK or 404 Not Found
+ */
+GET /api/cities/1 HTTP/1.1
+Host: localhost:7000
+Accept: application/json
+
+// Response Example (200 OK):
+// {
+//   "cityId": 1,
+//   "cityName": "New York",
+//   "description": "The Big Apple",
+//   "pointsOfInterestCount": 3,
+//   "pointsOfInterest": [
+//     {
+//       "pointsOfInterestId": 1,
+//       "nameofPOI": "Statue of Liberty",
+//       "description": "Famous monument",
+//       "cityId": 1
+//     },
+//     {
+//       "pointsOfInterestId": 2,
+//       "nameofPOI": "Central Park",
+//       "description": "Large public park",
+//       "cityId": 1
+//     }
+//   ]
+// }
+
+// Response Example (404 Not Found):
+// HTTP/1.1 404 Not Found
+
+---
+
+/**
+ * POST /api/cities
+ * Description: Create a new city
+ * Request Body: CityInfoCreateDto
+ * Response: 201 Created with Location header
+ */
+POST /api/cities HTTP/1.1
+Host: localhost:7000
+Content-Type: application/json
+
+{
+  "cityName": "San Francisco",
+  "description": "City by the Bay"
+}
+
+// Response Example (201 Created):
+// HTTP/1.1 201 Created
+// Location: /api/cities/3
+// Content-Type: application/json
+// {
+//   "cityId": 3,
+//   "cityName": "San Francisco",
+//   "description": "City by the Bay",
+//   "pointsOfInterestCount": 0,
+//   "pointsOfInterest": []
+// }
+
+// Response Example (400 Bad Request):
+// HTTP/1.1 400 Bad Request
+// Content-Type: application/json
+// {
+//   "errors": {
+//     "CityName": ["The CityName field is required."]
+//   }
+// }
+
+---
+
+/**
+ * PUT /api/cities/{cityId}
+ * Description: Completely replace a city (all fields must be provided)
+ * Parameters:
+ *   - cityId (int, path): The ID of the city to update
+ * Request Body: CityInfoUpdateDto (requires all fields)
+ * Response: 204 No Content
+ */
+PUT /api/cities/1 HTTP/1.1
+Host: localhost:7000
+Content-Type: application/json
+
+{
+  "cityName": "New York City",
+  "description": "Updated description - The greatest city in the world"
+}
+
+// Response Example (204 No Content):
+// HTTP/1.1 204 No Content
+
+// Response Example (404 Not Found):
+// HTTP/1.1 404 Not Found
+
+// Response Example (400 Bad Request):
+// HTTP/1.1 400 Bad Request
+// {
+//   "errors": {
+//     "CityName": ["The CityName field is required."]
+//   }
+// }
+
+---
+
+/**
+ * PATCH /api/cities/{cityId}
+ * Description: Partially update a city using JSON Patch (RFC 6902)
+ * Parameters:
+ *   - cityId (int, path): The ID of the city to update
+ * Request Body: JsonPatchDocument array
+ * Content-Type: application/json-patch+json
+ * Response: 204 No Content
+ * 
+ * JSON Patch Operations:
+ *   - add: Add a new property or array element
+ *   - remove: Remove an existing property
+ *   - replace: Replace a property value
+ *   - move: Move a property
+ *   - copy: Copy a property
+ *   - test: Test a property value
+ */
+PATCH /api/cities/1 HTTP/1.1
+Host: localhost:7000
+Content-Type: application/json-patch+json
+
+[
+  {
+    "op": "replace",
+    "path": "/description",
+    "value": "New description via PATCH"
+  },
+  {
+    "op": "replace",
+    "path": "/cityName",
+    "value": "NYC"
+  }
+]
+
+// Response Example (204 No Content):
+// HTTP/1.1 204 No Content
+
+// More PATCH Examples:
+
+// Add a field (only works if DTO has nullable fields)
+[
+  {
+    "op": "add",
+    "path": "/description",
+    "value": "New field value"
+  }
+]
+
+// Remove a field
+[
+  {
+    "op": "remove",
+    "path": "/description"
+  }
+]
+
+// Test operation (verify value before update)
+[
+  {
+    "op": "test",
+    "path": "/cityName",
+    "value": "New York"
+  },
+  {
+    "op": "replace",
+    "path": "/description",
+    "value": "Only update if city name is 'New York'"
+  }
+]
+
+---
+
+/**
+ * DELETE /api/cities/{cityId}
+ * Description: Delete a city (cascades to delete all associated POIs)
+ * Parameters:
+ *   - cityId (int, path): The ID of the city to delete
+ * Response: 204 No Content or 404 Not Found
+ */
+DELETE /api/cities/1 HTTP/1.1
+Host: localhost:7000
+
+// Response Example (204 No Content):
+// HTTP/1.1 204 No Content
+
+// Response Example (404 Not Found):
+// HTTP/1.1 404 Not Found
+
+// ============================================================================
+// POINTS OF INTEREST ENDPOINTS
+// ============================================================================
+
+/**
+ * GET /api/cities/{cityId}/pointsofinterest
+ * Description: Get all points of interest for a specific city
+ * Parameters:
+ *   - cityId (int, path): The ID of the city
+ * Response: 200 OK or 404 Not Found (if city doesn't exist)
+ */
+GET /api/cities/1/pointsofinterest HTTP/1.1
+Host: localhost:7000
+Accept: application/json
+
+// Response Example (200 OK):
+// HTTP/1.1 200 OK
+// Content-Type: application/json
+// [
+//   {
+//     "pointsOfInterestId": 1,
+//     "nameofPOI": "Statue of Liberty",
+//     "description": "Famous monument",
+//     "cityId": 1
+//   },
+//   {
+//     "pointsOfInterestId": 2,
+//     "nameofPOI": "Central Park",
+//     "description": "Large public park",
+//     "cityId": 1
+//   }
+// ]
+
+// Response Example (404 Not Found - city doesn't exist):
+// HTTP/1.1 404 Not Found
+
+---
+
+/**
+ * GET /api/cities/{cityId}/pointsofinterest/{poiId}
+ * Description: Get a specific point of interest
+ * Parameters:
+ *   - cityId (int, path): The ID of the city
+ *   - poiId (int, path): The ID of the point of interest
+ * Response: 200 OK or 404 Not Found
+ */
+GET /api/cities/1/pointsofinterest/2 HTTP/1.1
+Host: localhost:7000
+Accept: application/json
+
+// Response Example (200 OK):
+// HTTP/1.1 200 OK
+// Content-Type: application/json
+// {
+//   "pointsOfInterestId": 2,
+//   "nameofPOI": "Central Park",
+//   "description": "Large public park",
+//   "cityId": 1
+// }
+
+// Response Example (404 Not Found):
+// HTTP/1.1 404 Not Found
+
+---
+
+/**
+ * POST /api/cities/{cityId}/pointsofinterest
+ * Description: Create a new point of interest in a city
+ * Parameters:
+ *   - cityId (int, path): The ID of the city
+ * Request Body: PointsOfInterestCreateDto
+ * Response: 201 Created or 404 Not Found (if city doesn't exist)
+ */
+POST /api/cities/1/pointsofinterest HTTP/1.1
+Host: localhost:7000
+Content-Type: application/json
+
+{
+  "nameofPOI": "Times Square",
+  "description": "Famous intersection known for its bright LED billboards"
+}
+
+// Response Example (201 Created):
+// HTTP/1.1 201 Created
+// Location: /api/cities/1/pointsofinterest/3
+// Content-Type: application/json
+// {
+//   "pointsOfInterestId": 3,
+//   "nameofPOI": "Times Square",
+//   "description": "Famous intersection known for its bright LED billboards",
+//   "cityId": 1
+// }
+
+// Response Example (404 Not Found - city doesn't exist):
+// HTTP/1.1 404 Not Found
+
+// Response Example (400 Bad Request):
+// HTTP/1.1 400 Bad Request
+// {
+//   "errors": {
+//     "NameofPOI": ["The NameofPOI field is required."]
+//   }
+// }
+
+---
+
+/**
+ * PUT /api/cities/{cityId}/pointsofinterest/{poiId}
+ * Description: Completely replace a point of interest
+ * Parameters:
+ *   - cityId (int, path): The ID of the city
+ *   - poiId (int, path): The ID of the point of interest
+ * Request Body: PointsOfInterestUpdateDto (all fields required)
+ * Response: 204 No Content
+ */
+PUT /api/cities/1/pointsofinterest/2 HTTP/1.1
+Host: localhost:7000
+Content-Type: application/json
+
+{
+  "nameofPOI": "Central Park - Updated",
+  "description": "Updated description for the large public park"
+}
+
+// Response Example (204 No Content):
+// HTTP/1.1 204 No Content
+
+// Response Example (404 Not Found):
+// HTTP/1.1 404 Not Found
+
+---
+
+/**
+ * PATCH /api/cities/{cityId}/pointsofinterest/{poiId}
+ * Description: Partially update a point of interest using JSON Patch
+ * Parameters:
+ *   - cityId (int, path): The ID of the city
+ *   - poiId (int, path): The ID of the point of interest
+ * Request Body: JsonPatchDocument array
+ * Content-Type: application/json-patch+json
+ * Response: 204 No Content
+ */
+PATCH /api/cities/1/pointsofinterest/2 HTTP/1.1
+Host: localhost:7000
+Content-Type: application/json-patch+json
+
+[
+  {
+    "op": "replace",
+    "path": "/description",
+    "value": "Large public park in Manhattan - Updated via PATCH"
+  }
+]
+
+// Response Example (204 No Content):
+// HTTP/1.1 204 No Content
+
+// Response Example (404 Not Found):
+// HTTP/1.1 404 Not Found
+
+---
+
+/**
+ * DELETE /api/cities/{cityId}/pointsofinterest/{poiId}
+ * Description: Delete a point of interest
+ * Parameters:
+ *   - cityId (int, path): The ID of the city
+ *   - poiId (int, path): The ID of the point of interest
+ * Response: 204 No Content or 404 Not Found
+ */
+DELETE /api/cities/1/pointsofinterest/2 HTTP/1.1
+Host: localhost:7000
+
+// Response Example (204 No Content):
+// HTTP/1.1 204 No Content
+
+// Response Example (404 Not Found):
+// HTTP/1.1 404 Not Found
+
+// ============================================================================
+// COMMON CURL COMMANDS
+// ============================================================================
+
+/**
+ * Get all cities
+ */
+curl -X GET "https://localhost:7000/api/cities" \
+  -H "accept: application/json"
+
+/**
+ * Get specific city
+ */
+curl -X GET "https://localhost:7000/api/cities/1" \
+  -H "accept: application/json"
+
+/**
+ * Create a city
+ */
+curl -X POST "https://localhost:7000/api/cities" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"cityName\": \"Boston\",
+    \"description\": \"The Hub\"
+  }"
+
+/**
+ * Full update (PUT)
+ */
+curl -X PUT "https://localhost:7000/api/cities/1" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"cityName\": \"New York City\",
+    \"description\": \"Updated description\"
+  }"
+
+/**
+ * Partial update (PATCH)
+ */
+curl -X PATCH "https://localhost:7000/api/cities/1" \
+  -H "Content-Type: application/json-patch+json" \
+  -d "[
+    {\"op\": \"replace\", \"path\": \"/description\", \"value\": \"New desc\"}
+  ]"
+
+/**
+ * Delete a city
+ */
+curl -X DELETE "https://localhost:7000/api/cities/1" \
+  -H "accept: */*"
+
+/**
+ * Get all POIs for a city
+ */
+curl -X GET "https://localhost:7000/api/cities/1/pointsofinterest" \
+  -H "accept: application/json"
+
+/**
+ * Create a POI
+ */
+curl -X POST "https://localhost:7000/api/cities/1/pointsofinterest" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"nameofPOI\": \"Empire State Building\",
+    \"description\": \"Iconic skyscraper\"
+  }"
+
+// ============================================================================
+// HTTP STATUS CODES
+// ============================================================================
+
+/**
+ * 200 OK
+ * - Successful GET request
+ * - Successful retrieval of data
+ */
+
+/**
+ * 201 Created
+ * - Successful POST request
+ * - New resource created
+ * - Location header contains URL to new resource
+ */
+
+/**
+ * 204 No Content
+ * - Successful PUT/PATCH/DELETE request
+ * - No response body
+ */
+
+/**
+ * 400 Bad Request
+ * - Invalid request data
+ * - Model validation failed
+ * - Required fields missing
+ */
+
+/**
+ * 404 Not Found
+ * - Resource doesn't exist
+ * - City or POI not found
+ */
+
+/**
+ * 500 Internal Server Error
+ * - Server error
+ * - Unhandled exception
+ */
+
+// ============================================================================
+// POSTMAN ENVIRONMENT SETUP
+// ============================================================================
+
+/**
+ * Create a Postman collection with these variables:
+ * 
+ * {{base_url}} = https://localhost:7000
+ * {{cityId}} = 1
+ * {{poiId}} = 1
+ * 
+ * Use these in requests like:
+ * GET {{base_url}}/api/cities/{{cityId}}
+ */

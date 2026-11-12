@@ -1,0 +1,87 @@
+# .gitignore for .NET / Visual Studio projects
+# Generated for Example4Week4RDS (.NET 8)
+
+# Build folders
+bin/
+obj/
+artifacts/
+
+# Visual Studio files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+
+# NuGet
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+
+# Dotnet publish
+publish/
+
+# Logs and databases
+*.log
+*.csv
+*.sqlite
+*.db
+*.mdf
+*.ldf
+*.bak
+
+# Test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+coverage/
+
+# User secrets
+secrets.json
+secrets.*.json
+
+# ASP.NET Core settings for local dev
+appsettings.Development.json
+appsettings.Local.json
+
+# Certificates and keys
+*.pfx
+*.key
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# JetBrains Rider caches
+.idea/
+*.sln.iml
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# Ignore publish output and deployment files
+publish/
+*.Publish.xml
+
+# Ignore tooling files
+.npm/
+node_modules/
+
+# DotNetWatch and dotnet user files
+.dotnet/
+
+# Docker
+docker-compose*.yml
+
+# End of .gitignore
