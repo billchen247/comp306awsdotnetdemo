@@ -14,6 +14,7 @@ namespace Example6WeekMVCWebRDS
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine("Starting Example6WeekMVCWebRDS application...");
             var builder = WebApplication.CreateBuilder(args);
 
             // Option A: (legacy) you can configure a path to load many parameters using
@@ -103,7 +104,12 @@ namespace Example6WeekMVCWebRDS
             // Add DbContext
             // db connection string is loading appsettings.json, but you can override it with an environment variable
             // default environment variable name is "ConnectionStrings__DefaultConnection" (double underscore)
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            // Use DefaultConnection2Docker (host.docker.internal with SQL auth) when running in Docker, otherwise use DefaultConnection
+            var connectionStringKey = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true" 
+                ? "DefaultConnection2Docker" 
+                : "DefaultConnection";
+            var connectionString = builder.Configuration.GetConnectionString(connectionStringKey);
+            Console.WriteLine($"Using connection string key: {connectionStringKey}");
 
             // If DB credentials were retrieved from SSM, inject them into the connection string.
             if (!string.IsNullOrEmpty(dbUser) && !string.IsNullOrEmpty(dbPassword) && !string.IsNullOrEmpty(connectionString))
@@ -128,6 +134,8 @@ namespace Example6WeekMVCWebRDS
                 }
             }
 
+            Console.WriteLine($"Final connection string : {MaskConnectionString(connectionString)}");
+            Console.WriteLine($"Attempting to connect to SQL Server...");
             builder.Services.AddDbContext<Example6WeekMVCWebRDS.Data.TodoContext>(options =>
                 options.UseSqlServer(connectionString));
 
@@ -172,6 +180,17 @@ namespace Example6WeekMVCWebRDS
             }
 
             app.Run();
+        }
+
+        /// <summary>
+        /// Masks sensitive information in connection strings for logging
+        /// </summary>
+        private static string MaskConnectionString(string connectionString)
+        {
+            if (string.IsNullOrEmpty(connectionString))
+                return "<empty>";
+            
+            return Regex.Replace(connectionString, @"Password=[^;]*", "Password=***MASKED***", RegexOptions.IgnoreCase);
         }
     }
 }
