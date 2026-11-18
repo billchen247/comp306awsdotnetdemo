@@ -1,10 +1,12 @@
-
 # Base runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-jammy AS base
 
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+
+# .NET 8 container images default to 8080; override to listen on 80.
+ENV ASPNETCORE_URLS=http://+:80
+
+EXPOSE 80
 
 # Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0-jammy AS build
@@ -36,6 +38,9 @@ RUN dotnet publish "./Example9WeekCityInfoAPI.csproj" \
 
 # Final stage
 FROM base AS final
+
+# Port 80 is a privileged port on Linux.
+USER root
 
 WORKDIR /app
 
