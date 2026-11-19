@@ -4,7 +4,7 @@
 }
 
 <h2>@ViewData["Title"]</h2>
-<p>Using <code>HttpWebRequest/HttpWebResponse</code> to call the TODO API.</p>
+<p>Using <code>HttpWebRequest/HttpWebResponse</code> to run full TODO API CRUD (<strong>GET, POST, PUT, DELETE</strong>).</p>
 
 @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
 {
@@ -13,6 +13,19 @@
 else
 {
     <p><strong>Endpoint:</strong> @Model.EndpointUsed</p>
+
+    @if (Model.OperationLogs.Count > 0)
+    {
+        <h5>CRUD operation results</h5>
+        <ul>
+            @foreach (var log in Model.OperationLogs)
+            {
+                <li>@log</li>
+            }
+        </ul>
+    }
+
+    <h5>Current TODO items (after CRUD demo)</h5>
     <table class="table table-striped">
         <thead>
             <tr>
