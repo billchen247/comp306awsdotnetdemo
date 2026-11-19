@@ -1,0 +1,11 @@
+@Example10WeekTodoApi_HostAddress = http://localhost:5009
+
+GET {{Example10WeekTodoApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+````````
+
+
+# Response
