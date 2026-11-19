@@ -11,9 +11,38 @@ namespace Example10WeekTodoApi
 
             // Add services to the container.
 
-            // Add DbContext with in-memory database
+            // Switch DbContext provider by configuration: InMemory or SqlServer
+            // ECS-friendly env vars are prioritized when present.
+            var databaseProvider = (
+                Environment.GetEnvironmentVariable("DATABASE_PROVIDER")
+                ?? builder.Configuration["DatabaseProvider"]
+            )?.Trim().ToLowerInvariant();
+            Console.WriteLine($"Using database provider: {databaseProvider}");
+
             builder.Services.AddDbContext<TodoDbContext>(options =>
-                options.UseInMemoryDatabase("TodoDb"));
+            {
+                if (databaseProvider == "sqlserver")
+                {
+                    var sqlConnectionString =
+                        Environment.GetEnvironmentVariable("SQLSERVER_CONNECTION_STRING")
+                        ?? builder.Configuration.GetConnectionString("SqlServer");
+
+                    if (string.IsNullOrWhiteSpace(sqlConnectionString))
+                    {
+                        throw new InvalidOperationException("SQL Server connection string is not configured. Set SQLSERVER_CONNECTION_STRING or ConnectionStrings:SqlServer.");
+                    }
+
+                    options.UseSqlServer(sqlConnectionString);
+                }
+                else
+                {
+                    var inMemoryDbName =
+                        Environment.GetEnvironmentVariable("INMEMORY_DATABASE_NAME")
+                        ?? builder.Configuration.GetConnectionString("InMemory")
+                        ?? "TodoDb";
+                    options.UseInMemoryDatabase(inMemoryDbName);
+                }
+            });
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -33,9 +62,9 @@ namespace Example10WeekTodoApi
             app.MapControllers();
 
             // ECS / ALB health checks
-            app.MapGet("/helath", () => Results.Ok(new { 
-                                                        status = "Healthy", 
-                                                        timestamp = DateTime.UtcNow 
+            app.MapGet("/helath", () => Results.Ok(new {
+                                                        status = "Healthy",
+                                                        timestamp = DateTime.UtcNow
                                                         }));
             
 
@@ -70,10 +99,12 @@ namespace Example10WeekTodoApi
                 """,
                 "text/html"));
 
-            // Seed the database with initial data
+            // Initialize and seed database
             using (var scope = app.Services.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<TodoDbContext>();
+
+                dbContext.Database.EnsureCreated();
                 TodoSeeder.SeedTodos(dbContext);
             }
 
