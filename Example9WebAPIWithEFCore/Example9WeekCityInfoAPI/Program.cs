@@ -71,7 +71,7 @@ namespace Example9WeekCityInfoAPI
             var app = builder.Build();
 
             // ECS / ALB health checks
-            app.MapGet("/helath", () => Results.Ok(new
+            app.MapGet("/health", () => Results.Ok(new
             {
                 status = "Healthy",
                 timestamp = DateTime.UtcNow
