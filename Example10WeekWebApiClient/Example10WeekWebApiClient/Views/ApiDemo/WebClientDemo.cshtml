@@ -1,0 +1,37 @@
+@model Example10WeekWebApiClient.Models.ApiDemoResultViewModel
+@{
+    ViewData["Title"] = "WebClient Demo";
+}
+
+<h2>@ViewData["Title"]</h2>
+<p>Using <code>WebClient</code> to call the TODO API.</p>
+
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+else
+{
+    <p><strong>Endpoint:</strong> @Model.EndpointUsed</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Complete</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Title</td>
+                <td>@item.Description</td>
+                <td>@item.IsComplete</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
