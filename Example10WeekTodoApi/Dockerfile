@@ -10,7 +10,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 # FROM mcr.microsoft.com/dotnet/aspnet:8.0-jammy AS base
 
 WORKDIR /app
-EXPOSE 8080
+EXPOSE 80
 EXPOSE 8081
 
 
@@ -34,4 +34,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENV DOTNET_RUNNING_IN_CONTAINER=true
+ENV ASPNETCORE_HTTP_PORTS=80
 ENTRYPOINT ["dotnet", "Example10WeekTodoApi.dll"]
